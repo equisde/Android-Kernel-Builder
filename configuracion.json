@@ -1,0 +1,58 @@
+{
+  "kernels": [
+    {
+      "nombre": "sweet-nethunter-test",
+      "repo": "https://github.com/ViP3R-KERNELs/kernel_xiaomi_sweet.git",
+      "rama": "13",
+      "dispositivo": "sweet",
+      "configuracion": {
+        "ARQUITECTURA": "arm64",
+        "COMPILADOR_CRUZADO": "aarch64-linux-gnu-",
+        "COMPILADOR_CRUZADO_COMPAT": "arm-linux-gnueabi-",
+        "HERRAMIENTAS_CLANG": "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86",
+        "HERRAMIENTAS_ARM": "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9",
+        "HERRAMIENTAS_ARM_COMPAT": "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9"
+      },
+      "carpeta_salida": "out",
+      "usar_ccache": true,
+      "usar_anykernel3": true,
+      "confirmar_lanzamiento": true,
+      "archivos_adicionales": ["archivo1", "archivo2"],
+      "kernelSource": {
+        "defconfig": "sweet_nethunter_defconfig",
+        "defconfig_name": "sweet_nethunter_defconfig"
+      },
+      "enableCcache": true,
+      "withKernelSU": false,
+      "AnyKernel3": {
+        "use": true,
+        "release": true,
+        "custom": {
+          "repo": "https://github.com/osm0sis/AnyKernel3.git",
+          "rama": "master"
+        }
+      },
+      "toolchains": [
+        {
+          "repo": "https://android.googlesource.com/platform/prebuilts/gas/linux-x86",
+          "rama": "master",
+          "nombre": "gas"
+        },
+        {
+          "repo": "https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone/",
+          "rama": "11",
+          "nombre": "clang"
+        }
+      ],
+      "params": {
+        "ARCH": "arm64",
+        "CROSS_COMPILE": "aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "arm-linux-gnueabi-",
+        "CROSS_COMPILE_COMPAT": "arm-linux-gnueabi-",
+        "CLANG_TRIPLE": "aarch64-linux-gnu-",
+        "AR": "",
+        "CC": "clang"
+      }
+    }
+  ]
+}

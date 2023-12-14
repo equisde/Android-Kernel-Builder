@@ -1,7 +1,7 @@
 name: "Construir Kernels"
 
 env:
-  CONFIGURACION: "configuracion.json"
+  CONFIGURACION: "config/configuracion.json"
   CARPETA_SALIDA: "out"
 
 on:
