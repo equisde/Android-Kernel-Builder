@@ -27,24 +27,41 @@ jobs:
   Build-Kernel:
     name: "🐎 Build kernel"
     runs-on: ubuntu-latest
-    needs:
-      - Set-repos
     strategy:
-      max-parallel: 2
+      max-parallel: 4
       fail-fast: false
       matrix:
-        repos: ${{ fromJSON(needs.Set-repos.outputs.repos) }}
+        CONFIG: ${{ fromJSON(needs.Read-configuration.outputs.CONFIGS) }}
     env:
-      kernelDir: ${{ matrix.repos.kernelSource.name }}_${{ matrix.repos.kernelSource.device }}
+      # Basic configuration
+      WORKSPACE: ${{ github.workspace }}
+      BUILD_DATE: "${{ needs.Read-configuration.outputs.BUILD_DATE }}"
 
-      kernelName: ${{ matrix.repos.kernelSource.name }}
-      kernelRepo: ${{ matrix.repos.kernelSource.repo }}
-      kernelBranch: ${{ matrix.repos.kernelSource.branch }}
-      kernelDevice: ${{ matrix.repos.kernelSource.device }}
+      # Kernel source configuration
+      KERNEL_NAME: ${{ matrix.CONFIG.kernelSource.name }}
+      KERNEL_REPO: ${{ matrix.CONFIG.kernelSource.repo }}
+      KERNEL_BRANCH: ${{ matrix.CONFIG.kernelSource.branch }}
+      KERNEL_DEVICE: ${{ matrix.CONFIG.kernelSource.device }}
+      KERNEL_DEFCONFIG_PATH: ${{ matrix.CONFIG.kernelSource.defconfig }}
 
-      DEFCONFIG_NAME: sweet_nethunter_defconfig
+      # Whether to use ccache to speed up compilation
+      ENABLE_CCACHE: ${{ matrix.CONFIG.enableCcache }}
 
-      withKernelSU: ${{ matrix.repos.withKernelSU }}
+      # Whether to use ANYKERNEL3 packaged flash package
+      USE_ANYKERNEL3: ${{ matrix.CONFIG.AnyKernel3.use }}
+
+      # Whether to publish
+      CONFIRM_RELEASE: ${{ matrix.CONFIG.AnyKernel3.release }}
+
+      # Whether to enable KernelSU
+      ENABLE_KERNELSU: ${{ matrix.CONFIG.enableKernelSU }}
+
+      # Whether to enable LXC docker
+      ENABLE_LXC: ${{ matrix.CONFIG.enableLXC }}
+
+      # Set output & ccache directory
+      OUT_DIR: "${{ github.workspace }}/out"
+      CCACHE_DIR: "${{ github.workspace }}/ccache"
     steps:
       - name: "✨ Create working dir"
         run: mkdir -p $kernelDir
