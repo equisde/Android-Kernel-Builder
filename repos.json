@@ -9,7 +9,7 @@
     "AnyKernel3": {
       "use": true,
       "release": true
-    }
+    },
     "toolchains": [
       {
         "repo": "https://android.googlesource.com/platform/prebuilts/gas/linux-x86",
