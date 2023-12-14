@@ -29,19 +29,19 @@
         "release": true,
         "custom": {
           "repo": "https://github.com/osm0sis/AnyKernel3.git",
-          "branch": "master"
+          "rama": "master"
         }
       },
       "toolchains": [
         {
           "repo": "https://android.googlesource.com/platform/prebuilts/gas/linux-x86",
-          "branch": "master",
-          "name": "gas"
+          "rama": "master",
+          "nombre": "gas"
         },
         {
           "repo": "https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone/",
-          "branch": "11",
-          "name": "clang"
+          "rama": "11",
+          "nombre": "clang"
         }
       ],
       "params": {
