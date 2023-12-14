@@ -1,58 +1,58 @@
-name: "Construir Kernels"
+name: "Build kernels"
 
 env:
-  CONFIGURACION: "configuracion.json"
-  CARPETA_SALIDA: "out"
+  CONFIGURATION: "repos.json"
+  OUT_DIR: "out"
 
 on:
   workflow_dispatch:
 
 jobs:
-  Configurar-repos:
-    name: "🐂 Analizar configuracion.json"
+  Set-repos:
+    name: "🐂 Parse repos.json"
     runs-on: ubuntu-latest
     outputs:
-      repos: ${{ steps.generar-matriz.outputs.repos }}
+      repos: ${{ steps.generate-matrix.outputs.repos }}
     steps:
       - name: "😄 Checkout"
         uses: actions/checkout@v3
 
-      - name: "😆 Generar Matriz"
-        id: generar-matriz
+      - name: "😆 Generate Matrix"
+        id: generate-matrix
         run: |
           echo "repos<<EOF" >> $GITHUB_OUTPUT
-          cat ${{ env.CONFIGURACION }} >> $GITHUB_OUTPUT
+          cat ${{ env.CONFIGURATION }} >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-  Construir-Kernel:
-    name: "🐎 Construir kernel"
+  Build-Kernel:
+    name: "🐎 Build kernel"
     runs-on: ubuntu-latest
     needs:
-      - Configurar-repos
+      - Set-repos
     strategy:
       max-parallel: 2
       fail-fast: false
       matrix:
-        repos: ${{ fromJSON(needs.Configurar-repos.outputs.repos) }}
+        repos: ${{ fromJSON(needs.Set-repos.outputs.repos) }}
     env:
-      dirKernel: ${{ matrix.repos.kernelSource.nombre }}_${{ matrix.repos.kernelSource.dispositivo }}
-      USAR_CCACHE: ${{ matrix.repos.enableCcache }}
-      USAR_ANYKERNEL3: ${{ matrix.repos.AnyKernel3.use }}
-      CONFIRMAR_LANZAMIENTO: ${{ matrix.repos.AnyKernel3.release }}
-      nombreKernel: ${{ matrix.repos.kernelSource.nombre }}
-      repoKernel: ${{ matrix.repos.kernelSource.repo }}
-      ramaKernel: ${{ matrix.repos.kernelSource.rama }}
-      dispositivoKernel: ${{ matrix.repos.kernelSource.dispositivo }}
-      ARQUITECTURA: ${{ matrix.repos.params.ARCH }}
-      NOMBRE_DEFCONFIG: sweet_nethunter_defconfig
-      conKernelSU: ${{ matrix.repos.withKernelSU }}
-      DIR_CCACHE: "${{ github.workspace }}/ccache"
+      kernelDir: ${{ matrix.repos.kernelSource.name }}_${{ matrix.repos.kernelSource.device }}
+      ENABLE_CCACHE: ${{ matrix.repos.enableCcache }}
+      USE_ANYKERNEL3: ${{ matrix.repos.AnyKernel3.use }}
+      CONFIRM_RELEASE: ${{ matrix.repos.AnyKernel3.release }}
+      kernelName: ${{ matrix.repos.kernelSource.name }}
+      kernelRepo: ${{ matrix.repos.kernelSource.repo }}
+      kernelBranch: ${{ matrix.repos.kernelSource.branch }}
+      kernelDevice: ${{ matrix.repos.kernelSource.device }}
+      ARCH: ${{ matrix.repos.params.ARCH }}
+      DEFCONFIG_NAME: sweet_nethunter_defconfig
+      withKernelSU: ${{ matrix.repos.withKernelSU }}
+      CCACHE_DIR: "${{ github.workspace }}/ccache"
 
     steps:
-      - name: "✨ Crear directorio de trabajo"
-        run: mkdir -p $dirKernel
+      - name: "✨ Create working dir"
+        run: mkdir -p $kernelDir
 
-      - name: "⭐ Instalar requisitos"
+      - name: "⭐ Install prerequisites"
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential bc curl git zip ftp gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev lftp zstd wget libfl-dev python2 python3 libarchive-tools
@@ -64,63 +64,63 @@ jobs:
           sudo apt-get install -y pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl 
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar llvm g++-multilib bison gperf zlib1g-dev automake
 
-      - name: 🚄 Configurar ccache
-        if: ${{ env.USAR_CCACHE == 'true' }}
+      - name: 🚄 Setup ccache
+        if: ${{ env.ENABLE_CCACHE == 'true' }}
         id: hash
         run: |
-          mkdir -p ${{ env.CARPETA_SALIDA }}
-          ccache -o compression=false -o cache_dir=${{ env.DIR_CCACHE }}
+          mkdir -p ${{ env.OUT_DIR }}
+          ccache -o compression=false -o cache_dir=${{ env.CCACHE_DIR }}
           echo $(echo -n '${{ toJSON(matrix.repos) }}' | openssl dgst -sha1 | awk '{print $2}')
           echo "HASH=$(echo -n '${{ toJSON(matrix.repos) }}' | openssl dgst -sha1 | awk '{print $2}')" >> $GITHUB_OUTPUT
 
-      - name: 🚅 Cache de ccache y salida
+      - name: 🚅 Cache ccache & output
         env:
           HASH: ${{ steps.hash.outputs.HASH }}
-        if: ${{ env.USAR_CCACHE == 'true' }}
+        if: ${{ env.ENABLE_CCACHE == 'true' }}
         uses: actions/cache@v3
         with:
           path: |
-            ${{ env.CARPETA_SALIDA }}
-            ${{ env.DIR_CCACHE }}
-          key: cache-${{ env.nombreKernel }}-${{ env.HASH }}-2023"
+            ${{ env.OUT_DIR }}
+            ${{ env.CCACHE_DIR }}
+          key: cache-${{ env.kernelName }}-${{env.HASH}}-2023"
           restore-keys: |
-            cache-${{ env.nombreKernel }}-${{ env.HASH }}-2023"
-            cache-${{ env.nombreKernel }}-${{ env.HASH }}-
-            cache-${{ env.nombreKernel }}-
+            cache-${{ env.kernelName }}-${{env.HASH}}-2023"
+            cache-${{ env.kernelName }}-${{env.HASH}}-
+            cache-${{ env.kernelName }}-
 
-      - name: "🌟 Clonar fuente del kernel => (${{ env.repoKernel }})"
-        working-directory: ./${{ env.dirKernel }}
+      - name: "🌟 Clone kernel source => (${{ env.kernelRepo }})"
+        working-directory: ./${{ env.kernelDir }}
         run: |
-          git clone --recursive --branch $ramaKernel $repoKernel $nombreKernel --depth=1
+          git clone --recursive --branch $kernelBranch $kernelRepo $kernelName --depth=1
 
-      - name: "💫 Obtener herramientas de compilación"
-        working-directory: ./${{ env.dirKernel }}
+      - name: "💫 Get toolchains"
+        working-directory: ./${{ env.kernelDir }}
         env:
           toolchains: "${{ toJSON(matrix.repos.toolchains) }}"
         run: |
           toolchains_num="$(echo $toolchains | jq 'length')"
           echo $toolchains_num
           for ((i=0;i<toolchains_num;i++)); do
-            name=$(echo $toolchains | jq -r ".[$i].nombre")
+            name=$(echo $toolchains | jq -r ".[$i].name")
             repo=$(echo $toolchains | jq -r ".[$i].repo")
-            rama=$(echo $toolchains | jq -r ".[$i].rama")
-            git clone --recursive --branch $rama $repo $name --depth=1
+            branch=$(echo $toolchains | jq -r ".[$i].branch")
+            git clone --recursive --branch $branch $repo $name --depth=1
             echo "$(pwd)/$name/" >> $GITHUB_PATH
             echo "$(pwd)/$name/bin" >> $GITHUB_PATH
           done
 
-          echo "Variable de RUTA: $PATH"
+          echo "PATH Variable: $PATH"
 
-      - name: "😎 Establecer argumentos"
-        id: generar-args
-        working-directory: ./${{ env.dirKernel }}
+      - name: "😎 Set args"
+        id: generate-args
+        working-directory: ./${{ env.kernelDir }}
         env:
           params: "${{ toJSON(matrix.repos.params) }}"
           THREAD: $(nproc --all)
           
         run: |
-          echo "Variable de RUTA: $PATH"
-          ARQUITECTURA="arm64"
+          echo "PATH Variable: $PATH"
+          ARCH="arm64"
           CROSS_COMPILE=$(echo $params | jq -r ".CROSS_COMPILE")
           CROSS_COMPILE_COMPAT=$(echo $params | jq -r ".CROSS_COMPILE_COMPAT")
           CROSS_COMPILE_ARM32=$(echo $params | jq -r ".CROSS_COMPILE_ARM32")
@@ -128,15 +128,15 @@ jobs:
           AR=$(echo $params | jq -r ".AR")
           CC=$(echo $params | jq -r ".CC")
 
-          echo "ARQUITECTURA=$ARQUITECTURA" >> $GITHUB_ENV
+          echo "ARCH=$ARCH" >> $GITHUB_ENV
 
           args="-j$(nproc --all)"
-          if [ -n "${{ env.CARPETA_SALIDA }}" ]; then
-            mkdir -p $(pwd)/${{ env.CARPETA_SALIDA }}
-            args="$args O=$(pwd)/${{ env.CARPETA_SALIDA }}"
+          if [ -n "${{ env.OUT_DIR }}" ]; then
+            mkdir -p $(pwd)/${{ env.OUT_DIR }}
+            args="$args O=$(pwd)/${{ env.OUT_DIR }}"
           fi
-          if [ -n "$ARQUITECTURA" ]; then
-            args="$args ARQUITECTURA=$ARQUITECTURA"
+          if [ -n "$ARCH" ]; then
+            args="$args ARCH=$ARCH"
           fi
           if [ -n "$CROSS_COMPILE" ]; then
             args="$args CROSS_COMPILE=$CROSS_COMPILE"
@@ -155,9 +155,9 @@ jobs:
           fi
           echo "args=$args" >> $GITHUB_OUTPUT
 
-      - name: "😋 Actualizar KernelSU"
-        working-directory: ./${{ env.dirKernel }}/${{ env.nombreKernel }}
-        if: ${{ env.conKernelSU == 'true' }}
+      - name: "😋 Update KernelSU"
+        working-directory: ./${{ env.kernelDir }}/${{ env.kernelName }}
+        if: ${{ env.withKernelSU == 'true' }}
         run: |
           if [ -d "./KernelSU" ]; then
             rm -rf "./KernelSU"
@@ -168,115 +168,117 @@ jobs:
 
           curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
 
-          echo -e "\nCONFIG_KPROBES=y" >> ./arch/${{ env.ARQUITECTURA }}/configs/${{ env.NOMBRE_DEFCONFIG }}
-          echo -e "\nCONFIG_HAVE_KPROBES=y" >> ./arch/${{ env.ARQUITECTURA }}/configs/${{ env.NOMBRE_DEFCONFIG }}
-          echo -e "\nCONFIG_KPROBE_EVENTS=y" >> ./arch/${{ env.ARQUITECTURA }}/configs/${{ env.NOMBRE_DEFCONFIG }}
+          echo -e "\nCONFIG_KPROBES=y" >> ./arch/${{ env.ARCH }}/configs/${{ env.DEFCONFIG_NAME }}
+          echo -e "\nCONFIG_HAVE_KPROBES=y" >> ./arch/${{ env.ARCH }}/configs/${{ env.DEFCONFIG_NAME }}
+          echo -e "\nCONFIG_KPROBE_EVENTS=y" >> ./arch/${{ env.ARCH }}/configs/${{ env.DEFCONFIG_NAME }}
 
-          cat ./arch/${{ env.ARQUITECTURA }}/configs/${{ env.NOMBRE_DEFCONFIG }}
+          cat ./arch/${{ env.ARCH }}/configs/${{ env.DEFCONFIG_NAME }}
 
-      - name: "👍 Crear configuración por defecto"
-        working-directory: ./${{ env.dirKernel }}/${{ env.nombreKernel }}
+      - name: "👍 Make defconfig"
+        working-directory: ./${{ env.kernelDir }}/${{ env.kernelName }}
         env:
-          args: ${{ steps.generar-args.outputs.args }}
+          args: ${{ steps.generate-args.outputs.args }}
         run: |
-          echo "Variable de RUTA: $PATH"
-          make ${{ env.args }} ${{ env.NOMBRE_DEFCONFIG }}
+          echo "PATH Variable: $PATH"
+          make ${{ env.args }} ${{ env.DEFCONFIG_NAME }}
 
-      - name: "🎶 Compilar kernel"
-        working-directory: ./${{ env.dirKernel }}/${{ env.nombreKernel }}
+      - name: "🎶 Build kernel"
+        working-directory: ./${{ env.kernelDir }}/${{ env.kernelName }}
         env:
-          args: ${{ steps.generar-args.outputs.args }}
+          args: ${{ steps.generate-args.outputs.args }}
         run: |
-          echo "Variable de RUTA: $PATH"
+          echo "PATH Variable: $PATH"
           make ${args}
 
-      - name: "💛 Subir imagen"
+      - name: "💛 Upload Image"
         uses: actions/upload-artifact@v3
         with:
-          name: Imagen(${{ env.dispositivoKernel }}-${{ env.nombreKernel }}-${{ env.ramaKernel }})
-          path: ./${{ env.dirKernel }}/${{ env.CARPETA_SALIDA }}/arch/${{ env.ARQUITECTURA }}/boot/Image
+          name: Image(${{ env.kernelDevice }}-${{ env.kernelName }}-${{ env.kernelBranch }})
+          path: ./${{ env.kernelDir }}/${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image
           if-no-files-found: ignore
           retention-days: 7
 
-      - name: "💙 Subir Image.gz"
+      - name: "💙 Upload Image.gz"
         uses: actions/upload-artifact@v3
         with:
-          name: Image.gz(${{ env.dispositivoKernel }}-${{ env.nombreKernel }}-${{ env.ramaKernel }})
-          path: ./${{ env.dirKernel }}/${{ env.CARPETA_SALIDA }}/arch/${{ env.ARQUITECTURA }}/boot/Image.gz
+          name: Image.gz(${{ env.kernelDevice }}-${{ env.kernelName }}-${{ env.kernelBranch }})
+          path: ./${{ env.kernelDir }}/${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image.gz
           if-no-files-found: ignore
           retention-days: 7
 
-      - name: "💜 Subir dtb"
+      - name: "💜 Upload dtb"
         uses: actions/upload-artifact@v3
         with:
-          name: dtb(${{ env.dispositivoKernel }}-${{ env.nombreKernel }}-${{ env.ramaKernel }})
-          path: ./${{ env.dirKernel }}/${{ env.CARPETA_SALIDA }}/arch/${{ env.ARQUITECTURA }}/boot/dtb
+          name: dtb(${{ env.kernelDevice }}-${{ env.kernelName }}-${{ env.kernelBranch }})
+          path: ./${{ env.kernelDir }}/${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/dtb
           if-no-files-found: ignore
           retention-days: 7
 
-      - name: "❤️ Subir dtbo.img"
+      - name: "❤️ Upload dtbo.img"
         uses: actions/upload-artifact@v3
         with:
-          name: dtbo.img(${{ env.dispositivoKernel }}-${{ env.nombreKernel }}-${{ env.ramaKernel }})
-          path: ./${{ env.dirKernel }}/${{ env.CARPETA_SALIDA }}/arch/${{ env.ARQUITECTURA }}/boot/dtbo.img
+          name: dtbo.img(${{ env.kernelDevice }}-${{ env.kernelName }}-${{ env.kernelBranch }})
+          path: ./${{ env.kernelDir }}/${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/dtbo.img
           if-no-files-found: ignore
           retention-days: 7
           
-      - name: ⏰ Empaquetar Anykernel3
-        if: ${{ env.USAR_ANYKERNEL3 == 'true' }}
+      - name: ⏰ Pack Anykernel3
+        if: ${{ env.USE_ANYKERNEL3 == 'true' }}
         env:
           PARAMS: "${{ toJSON(matrix.repos.AnyKernel3) }}"
-          ARQUITECTURA: ${{ steps.generar-args.outputs.ARQUITECTURA }}
-          ANYKERNEL3_FILE: "./${{ env.dirKernel }}/${{ env.nombreKernel }}/AnyKernel3-${{ env.nombreKernel }}-2023"
+          ARCH: ${{ steps.generate-args.outputs.ARCH }}
+          ANYKERNEL3_FILE: "./${{ env.kernelDir }}/${{ env.kernelName }}/AnyKernel3-${{ env.kernelName }}-2023"
         run: |
           if echo -n '${{ env.PARAMS }}' | jq -e 'has("custom")' > /dev/null; then
             CUSTOM_ANYKERNEL3=$(echo -n '${{ env.PARAMS }}' | jq -r ".custom")
             ANYKERNEL_REPO=$(echo $CUSTOM_ANYKERNEL3 | jq -r ".repo")
-            ANYKERNEL_BRANCH=$(echo $CUSTOM_ANYKERNEL3 | jq -r ".rama")
+            ANYKERNEL_BRANCH=$(echo $CUSTOM_ANYKERNEL3 | jq -r ".branch")
             git clone --recursive --depth=1 -j $(nproc) --branch $ANYKERNEL_BRANCH $ANYKERNEL_REPO AnyKernel3
-            echo "🤔 Usar AnyKernel3 personalizado => ($ANYKERNEL_REPO)"
+            echo "🤔 Use custom AnyKernel3 => ($ANYKERNEL_REPO)"
           else
             git clone --recursive --depth=1 -j $(nproc) https://github.com/osm0sis/AnyKernel3 AnyKernel3
             sed -i 's/do.devicecheck=1/do.devicecheck=0/g' AnyKernel3/anykernel.sh
             sed -i 's!block=/dev/block/platform/omap/omap_hsmmc.0/by-name/boot;!block=auto;!g' AnyKernel3/anykernel.sh
             sed -i 's/is_slot_device=0;/is_slot_device=auto;/g' AnyKernel3/anykernel.sh
-            echo "🤔 Usar AnyKernel3 original => (https://github.com/osm0sis/AnyKernel3)"
+            echo "🤔 Use origin Anykernel3 => (https://github.com/osm0sis/AnyKernel3)"
           fi
 
-          cp -f ${{ env.CARPETA_SALIDA }}/arch/${{ env.ARQUITECTURA }}/boot/Image.gz-dtb AnyKernel3/
-          cd AnyKernel3
-
-          if echo -n '${{ env.PARAMS }}' | jq -e 'has("archivosAdicionales")' > /dev/null; then
-            archivosAdicionales=$(echo -n '${{ env.PARAMS }}' | jq -r ".archivosAdicionales[]")
-            for archivo in $archivosAdicionales; do
-              if [ -e "$archivo" ]; then
-                cp -f $archivo .
-              else
-                echo "⚠️ Advertencia: El archivo $archivo no existe y no se incluirá en el paquete AnyKernel3."
-              fi
-            done
+          if [ -e "${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image.gz-dtb" ]; then
+            cp -f ${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image.gz-dtb ./AnyKernel3/
+          else
+            if [ -e "${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image" ]; then
+              cp -f ${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image ./AnyKernel3/
+            fi
+            if [ -e "${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image.gz" ]; then
+              cp -f ${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/Image.gz ./AnyKernel3/
+            fi
+            if [ -e "${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/dtbo" ]; then
+              cp -f ${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/dtbo ./AnyKernel3/
+            fi
+            if [ -e "${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/dtbo.img" ]; then
+              cp -f ${{ env.OUT_DIR }}/arch/${{ env.ARCH }}/boot/dtbo.img ./AnyKernel3/
+            fi
           fi
 
-          zip -r9 $ANYKERNEL3_FILE *
-          cd ..
+          cd AnyKernel3/
+          zip -q -r "sweet-nethunter.zip" *
 
-      - name: 🚀 Lanzar confirmación de lanzamiento
-        if: ${{ env.CONFIRMAR_LANZAMIENTO == 'true' }}
-        run: |
-          echo "Variable de RUTA: $PATH"
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git checkout ${{ env.ramaKernel }}
-          git add .
-          git commit -m "Construcción automática de kernel para ${{ env.nombreKernel }} (${{ env.dispositivoKernel }}) - Confirmar lanzamiento"
-          git push origin ${{ env.ramaKernel }}
+      - name: "💾 Upload AnyKernel3 image => (${2023)"
+        env:
+          ANYKERNEL3_FILE: "AnyKernel3-${{ env.kernelName }}-2023"
+        uses: actions/upload-artifact@v3
+        if: ${{ env.USE_ANYKERNEL3 == 'true' }}
+        with:
+          name: "sweet-nethunter"
+          path: AnyKernel3/*
 
-      - name: 🧹 Limpiar directorio de trabajo
-        run: rm -rf ./${{ env.dirKernel }}
-
-      - name: 🚫 Desactivar AnyKernel3 si se usó
-        if: ${{ env.USAR_ANYKERNEL3 == 'true' }}
-        run: rm -rf ./AnyKernel3
-
-      - name: 🤖 Fin del trabajo
-        run: echo "¡Trabajo finalizado exitosamente!"
+      - name: 🧧 Create GitHub Release => 2023
+        env:
+          ANYKERNEL3_FILE: "./${{ env.kernelDir }}/${{ env.kernelName }}/AnyKernel3-${{ env.kernelName }}-2023"
+        continue-on-error: true
+        uses: softprops/action-gh-release@v1
+        if: ${{ env.USE_ANYKERNEL3 == 'true' && env.CONFIRM_RELEASE == 'true' }}
+        with:
+          tag_name: "v13.2023"
+          files: "sweet-nethunter.zip"
+          generate_release_notes: true
