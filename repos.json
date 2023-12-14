@@ -3,7 +3,8 @@
       "name": "sweet-nethunter-test",
       "repo": "https://github.com/ViP3R-KERNELs/kernel_xiaomi_sweet.git",
       "branch": "13",
-      "device": "sweet"
+      "device": "sweet",
+      "defconfig": "sweet_nethunter_defconfig"
     },
     "withKernelSU": false,
     "AnyKernel3": {
