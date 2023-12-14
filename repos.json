@@ -1,4 +1,5 @@
-[  {
+[
+  {
     "kernelSource": {
       "name": "sweet-nethunter-test",
       "repo": "https://github.com/ViP3R-KERNELs/kernel_xiaomi_sweet.git",
@@ -12,9 +13,9 @@
     "AnyKernel3": {
       "use": true,
       "release": true,
-     "custom": {
-     "repo": "https://github.com/osm0sis/AnyKernel3.git",
-   }
+      "custom": {
+        "repo": "https://github.com/osm0sis/AnyKernel3.git"
+      }
     },
     "toolchains": [
       {
@@ -26,7 +27,7 @@
         "repo": "https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone/",
         "branch": "11",
         "name": "clang"
-      },
+      }
     ],
     "params": {
       "ARCH": "arm64",
