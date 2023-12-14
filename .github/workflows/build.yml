@@ -13,9 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       repos: ${{ steps.generate-matrix.outputs.repos }}
-    container:
-      image: ubuntu-latest
-      options: --memory 16GB
     steps:
       - name: "😄 Checkout"
         uses: actions/checkout@v3
@@ -71,11 +68,10 @@ jobs:
         if: ${{ env.ENABLE_CCACHE == 'true' }}
         id: hash
         run: |
-          mkdir -p ${{ env.CCACHE_DIR }}
+          mkdir -p ${{ env.OUT_DIR }}
           ccache -o compression=false -o cache_dir=${{ env.CCACHE_DIR }}
           echo $(echo -n '${{ toJSON(matrix.repos) }}' | openssl dgst -sha1 | awk '{print $2}')
           echo "HASH=$(echo -n '${{ toJSON(matrix.repos) }}' | openssl dgst -sha1 | awk '{print $2}')" >> $GITHUB_OUTPUT
-          
 
       - name: 🚅 Cache ccache & output
         env:
@@ -91,28 +87,30 @@ jobs:
             cache-${{ env.kernelName }}-${{env.HASH}}-2023"
             cache-${{ env.kernelName }}-${{env.HASH}}-
             cache-${{ env.kernelName }}-
+
       - name: "🌟 Clone kernel source => (${{ env.kernelRepo }})"
         working-directory: ./${{ env.kernelDir }}
         run: |
           git clone --recursive --branch $kernelBranch $kernelRepo $kernelName --depth=1
 
-          - name: 💫 Get toolchains
-          working-directory: ./${{ env.kernelDir }}
-          env:
-            toolchains: "${{ toJSON(matrix.repos.toolchains) }}"
-          run: |
-            toolchains_num="$(echo $toolchains | jq 'length')"
-            echo $toolchains_num
-            for ((i=0;i<toolchains_num;i++)); do
-              name=$(echo $toolchains | jq -r ".[$i].name")
-              repo=$(echo $toolchains | jq -r ".[$i].repo")
-              branch=$(echo $toolchains | jq -r ".[$i].branch")
-              git clone --recursive --branch $branch $repo $name --depth=1 &
-              echo "$(pwd)/$name/" >> $GITHUB_PATH
-              echo "$(pwd)/$name/bin" >> $GITHUB_PATH
-            done
-            wait
-            echo "PATH Variable: $PATH"
+      - name: "💫 Get toolchains"
+        working-directory: ./${{ env.kernelDir }}
+        env:
+          toolchains: "${{ toJSON(matrix.repos.toolchains) }}"
+        run: |
+          toolchains_num="$(echo $toolchains | jq 'length')"
+          echo $toolchains_num
+          for ((i=0;i<toolchains_num;i++)); do
+            name=$(echo $toolchains | jq -r ".[$i].name")
+            repo=$(echo $toolchains | jq -r ".[$i].repo")
+            branch=$(echo $toolchains | jq -r ".[$i].branch")
+            git clone --recursive --branch $branch $repo $name --depth=1
+            echo "$(pwd)/$name/" >> $GITHUB_PATH
+            echo "$(pwd)/$name/bin" >> $GITHUB_PATH
+          done
+
+          echo "PATH Variable: $PATH"
+
       - name: "😎 Set args"
         id: generate-args
         working-directory: ./${{ env.kernelDir }}
@@ -191,7 +189,6 @@ jobs:
         run: |
           echo "PATH Variable: $PATH"
           make ${args} -j$(nproc)
-        
 
       - name: "💛 Upload Image"
         uses: actions/upload-artifact@v3
@@ -236,7 +233,7 @@ jobs:
             CUSTOM_ANYKERNEL3=$(echo -n '${{ env.PARAMS }}' | jq -r ".custom")
             ANYKERNEL_REPO=$(echo $CUSTOM_ANYKERNEL3 | jq -r ".repo")
             ANYKERNEL_BRANCH=$(echo $CUSTOM_ANYKERNEL3 | jq -r ".branch")
-            git clone --recursive --depth=1 -j $(nproc) --branch "master" $ANYKERNEL_REPO AnyKernel3
+            git clone --recursive --depth=1 -j $(nproc) --branch $ANYKERNEL_BRANCH $ANYKERNEL_REPO AnyKernel3
             echo "🤔 Use custom AnyKernel3 => ($ANYKERNEL_REPO)"
           else
             git clone --recursive --depth=1 -j $(nproc) https://github.com/osm0sis/AnyKernel3 AnyKernel3
