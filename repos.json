@@ -6,6 +6,10 @@
       "device": "sweet"
     },
     "withKernelSU": false,
+    "AnyKernel3": {
+      "use": true,
+      "release": true
+    }
     "toolchains": [
       {
         "repo": "https://android.googlesource.com/platform/prebuilts/gas/linux-x86",
@@ -16,7 +20,7 @@
         "repo": "https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone/",
         "branch": "11",
         "name": "clang"
-      }
+      },
     ],
     "params": {
       "ARCH": "arm64",
