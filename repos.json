@@ -1,6 +1,6 @@
 [  {
     "kernelSource": {
-      "name": "miku-KernelSU",
+      "name": "sweet-nethunter-test",
       "repo": "https://github.com/ViP3R-KERNELs/kernel_xiaomi_sweet.git",
       "branch": "13",
       "device": "sweet"
