@@ -10,7 +10,10 @@
     "withKernelSU": false,
     "AnyKernel3": {
       "use": true,
-      "release": true
+      "release": true,
+     "custom": {
+     "repo": "https://github.com/osm0sis/AnyKernel3.git",
+   }
     },
     "toolchains": [
       {
