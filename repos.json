@@ -7,6 +7,7 @@
       "defconfig": "sweet_nethunter_defconfig",
       "defconfig_name": "sweet_nethunter_defconfig"
     },
+    "enableCcache": true,
     "withKernelSU": false,
     "AnyKernel3": {
       "use": true,
