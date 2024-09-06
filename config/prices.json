@@ -1,0 +1,513 @@
+{
+    "statusCode": 200,
+    "message": "Success",
+    "data": {
+        "inventory": {
+            "normal": [
+                {
+                    "_id": "5c94ec281bc88aa95e8623e4",
+                    "cylinderId": {
+                        "_id": "5804b090698bcd0298164019",
+                        "height": 49,
+                        "diameter": 23,
+                        "weight": 5,
+                        "cylinderCode": "CN05",
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-2021/imagen_CN05.png",
+                        "totalWeight": 11.5,
+                        "isBlocked": false,
+                        "category": "Normal",
+                        "cylinderDescription": "05 KG CARGA GAS NORMAL",
+                        "type": "N",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CN05_flash.png"
+                    },
+                    "available": true,
+                    "price": 12950,
+                    "defaultPrice": 12950,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623e2",
+                    "cylinderId": {
+                        "_id": "5804b090698bcd0298164018",
+                        "height": 60,
+                        "diameter": 30,
+                        "weight": 11,
+                        "cylinderCode": "CN11",
+                        "totalWeight": 24,
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-2021/imagen_CN11.png",
+                        "isBlocked": false,
+                        "category": "Normal",
+                        "cylinderDescription": "11 KG CARGA GAS NORMAL",
+                        "type": "N",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CN11_flash.png"
+                    },
+                    "available": true,
+                    "price": 17850,
+                    "defaultPrice": 17850,
+                  "dynamicPriceData": {
+                        "priceType": "FIXED",
+                        "price": 14850,
+                        "distributorAmount": 0,
+                        "gascoAmount": 14850
+                    },
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623e0",
+                    "cylinderId": {
+                        "_id": "5804b090698bcd0298164017",
+                        "height": 58,
+                        "diameter": 38,
+                        "weight": 15,
+                        "cylinderCode": "CN15",
+                        "totalWeight": 30,
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-2021/imagen_CN15.png",
+                        "isBlocked": false,
+                        "category": "Normal",
+                        "cylinderDescription": "15 KG CARGA GAS NORMAL",
+                        "type": "N",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CN15_flash.png"
+                    },
+                    "available": true,
+                    "price": 26850,
+                    "defaultPrice": 26850,
+                   "dynamicPriceData": {
+                        "priceType": "FIXED",
+                        "price": 21850,
+                        "distributorAmount": 0,
+                        "gascoAmount": 21850
+                    },
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623de",
+                    "cylinderId": {
+                        "_id": "5804b090698bcd0298164016",
+                        "height": 120,
+                        "diameter": 38,
+                        "weight": 45,
+                        "cylinderCode": "CN45",
+                        "totalWeight": 78,
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-2021/imagen_CN45.png",
+                        "isBlocked": false,
+                        "category": "Normal",
+                        "cylinderDescription": "45 KG CARGA GAS NORMAL",
+                        "type": "N",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CN45_flash.png"
+                    },
+                    "available": true,
+                    "price": 75050,
+                    "defaultPrice": 75050,
+                    "dynamicPricePaymentOn": true
+                }
+            ],
+            "other_normal": [
+                {
+                    "_id": "5c94ec281bc88aa95e8623e8",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bcb",
+                        "cylinderCode": "CGH15",
+                        "cylinderDescription": "G.H.15 KG CARGA GAS NORMAL DE ACERO",
+                        "type": "H",
+                        "category": "GRUA HORQUILLA",
+                        "weight": 15,
+                        "cylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/imagenesCilindros/imagen_GH15.png",
+                        "discountCylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/imagenesCilindros/imagen_GH15_flash.png"
+                    },
+                    "available": true,
+                    "price": 28050,
+                    "defaultPrice": 28050,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623bf",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bcc",
+                        "cylinderCode": "CGH15_AL",
+                        "cylinderDescription": "G.H.15 KG CARGA GAS NORMAL DE ALUMINIO",
+                        "type": "H",
+                        "category": "GRUA HORQUILLA",
+                        "weight": 15,
+                        "cylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/imagenesCilindros/imagen_GH15.png",
+                        "discountCylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/imagenesCilindros/imagen_GH15_flash.png"
+                    },
+                    "available": true,
+                    "price": 28050,
+                    "defaultPrice": 28050,
+                    "dynamicPricePaymentOn": true
+                }
+            ],
+            "catalytic": [
+                {
+                    "_id": "5c94ec281bc88aa95e8623dc",
+                    "cylinderId": {
+                        "_id": "57f23187687f61025fbd80eb",
+                        "height": 49,
+                        "diameter": 23,
+                        "weight": 5,
+                        "cylinderCode": "CS05",
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-2021/imagen_CS05.png",
+                        "totalWeight": 11.5,
+                        "isBlocked": false,
+                        "category": "Catalytic",
+                        "cylinderDescription": "05 KG CARGA GAS SUPERCATALITICO",
+                        "type": "S",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CS05_flash.png"
+                    },
+                    "available": false,
+                    "price": 12800,
+                    "defaultPrice": 12800,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623da",
+                    "cylinderId": {
+                        "_id": "57f23183687f61025fbd80ea",
+                        "height": 60,
+                        "diameter": 30,
+                        "weight": 11,
+                        "cylinderCode": "CS11",
+                        "totalWeight": 24,
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-2021/imagen_CS11.png",
+                        "isBlocked": false,
+                        "category": "Catalytic",
+                        "cylinderDescription": "11 KG CARGA GAS SUPERCATALITICO",
+                        "type": "S",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CS11_flash.png"
+                    },
+                    "available": false,
+                    "price": 18650,
+                    "defaultPrice": 18650,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623d8",
+                    "cylinderId": {
+                        "_id": "57f2317c687f61025fbd80e9",
+                        "height": 58,
+                        "diameter": 38,
+                        "cylinderCode": "CS15",
+                        "weight": 15,
+                        "totalWeight": 30,
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-2021/imagen_CS15.png",
+                        "isBlocked": false,
+                        "category": "Catalytic",
+                        "cylinderDescription": "15 KG CARGA GAS SUPERCATALITICO",
+                        "type": "S",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CS15_flash.png"
+                    },
+                    "available": false,
+                    "price": 28450,
+                    "defaultPrice": 28450,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623d6",
+                    "cylinderId": {
+                        "_id": "57f230c7687f61025fbd80e5",
+                        "height": 120,
+                        "diameter": 38,
+                        "weight": 45,
+                        "cylinderCode": "CS45",
+                        "totalWeight": 78,
+                        "cylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CS45.png",
+                        "isBlocked": false,
+                        "category": "Catalytic",
+                        "cylinderDescription": "45 KG CARGA GAS SUPERCATALITICO",
+                        "type": "S",
+                        "discountCylinderImage": "https://gasco-us-west.s3-us-west-1.amazonaws.com/imagenesCilindros-nuevodiseno/imagen_CS45_flash.png"
+                    },
+                    "available": false,
+                    "price": 76400,
+                    "defaultPrice": 76400,
+                    "dynamicPricePaymentOn": true
+                }
+            ],
+            "other_catalytic": [],
+            "empty": [
+                {
+                    "_id": "5c94ec281bc88aa95e8623d2",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bd7",
+                        "cylinderCode": "GN02",
+                        "cylinderDescription": "GARANTIA CILINDRO 02KG ES",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 2,
+                        "cylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/imagenesCilindros/imagen_GN02.png",
+                        "discountCylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/imagenesCilindros/imagen_GN02_flash.png"
+                    },
+                    "available": false,
+                    "price": 24000,
+                    "defaultPrice": 24000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623d0",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bd8",
+                        "cylinderCode": "GN05",
+                        "cylinderDescription": "GARANTIA CILINDRO 05KG ES",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 5
+                    },
+                    "available": true,
+                    "price": 27000,
+                    "defaultPrice": 27000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623c8",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bdc",
+                        "cylinderCode": "GS05",
+                        "cylinderDescription": "GARANTIA CILINDRO SUPERCATALITICO 05KG E",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 5
+                    },
+                    "available": false,
+                    "price": 27000,
+                    "defaultPrice": 27000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623ce",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bd9",
+                        "cylinderCode": "GN11",
+                        "cylinderDescription": "GARANTIA CILINDRO 11KG ES",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 11
+                    },
+                    "available": true,
+                    "price": 51000,
+                    "defaultPrice": 51000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623c6",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bdd",
+                        "cylinderCode": "GS11",
+                        "cylinderDescription": "GARANTIA CILINDRO SUPERCATALITICO 11KG E",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 11
+                    },
+                    "available": false,
+                    "price": 51000,
+                    "defaultPrice": 51000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623d4",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bd6",
+                        "cylinderCode": "GGH15_AL",
+                        "cylinderDescription": "GARANTIA CILINDRO GRUA HORQ ALUMIN 15KG",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 15,
+                        "cylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/cylinders/GGH15_AL1493543908178"
+                    },
+                    "available": false,
+                    "price": 118000,
+                    "defaultPrice": 118000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623cc",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bda",
+                        "cylinderCode": "GN15",
+                        "cylinderDescription": "GARANTIA CILINDRO 15KG ES",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 15
+                    },
+                    "available": true,
+                    "price": 45000,
+                    "defaultPrice": 45000,
+                  "dynamicPriceData": {
+                        "priceType": "FIXED",
+                        "price": 39000,
+                        "distributorAmount": 0,
+                        "gascoAmount": 39000
+                    },
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623c4",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bde",
+                        "cylinderCode": "GS15",
+                        "cylinderDescription": "GARANTIA CILINDRO SUPERCATALITICO 15KG E",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 15
+                    },
+                    "available": false,
+                    "price": 45000,
+                    "defaultPrice": 45000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623b4",
+                    "cylinderId": {
+                        "_id": "58dc03b28f486be9670cf0fd",
+                        "cylinderCode": "GGH15",
+                        "cylinderDescription": "GARANTIA CILINDRO GRUA HORQUILLA 15KG",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 15,
+                        "cylinderImage": "https://s3-us-west-1.amazonaws.com/gasco-us-west/cylinders/GGH151495264846134"
+                    },
+                    "available": false,
+                    "price": 184000,
+                    "defaultPrice": 184000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623ca",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bdb",
+                        "cylinderCode": "GN45",
+                        "cylinderDescription": "GARANTIA CILINDRO 45KG ES",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 45
+                    },
+                    "available": true,
+                    "price": 98000,
+                    "defaultPrice": 98000,
+                    "dynamicPricePaymentOn": true
+                },
+                {
+                    "_id": "5c94ec281bc88aa95e8623c2",
+                    "cylinderId": {
+                        "_id": "584e987fdf829275019c4bdf",
+                        "cylinderCode": "GS45",
+                        "cylinderDescription": "GARANTIA CILINDRO SUPERCATALITICO 45KG E",
+                        "type": "G",
+                        "category": "Empty",
+                        "weight": 45
+                    },
+                    "available": false,
+                    "price": 98000,
+                    "defaultPrice": 98000,
+                    "dynamicPricePaymentOn": true
+                }
+            ]
+        },
+        "paymentMethods": [
+            {
+                "active": true,
+                "_id": "584e99ccdf829275019c4d3b",
+                "paymentMethodCode": "EFE",
+                "paymentMethodDescription": "Efectivo",
+                "order": 2
+            },
+            {
+                "active": true,
+                "_id": "58dc03ad8f486be9670cef93",
+                "paymentMethodCode": "CUP",
+                "paymentMethodDescription": "Cupon Vale",
+                "order": 5
+            },
+            {
+                "active": true,
+                "_id": "58dc03ad8f486be9670cef94",
+                "paymentMethodCode": "TDC",
+                "paymentMethodDescription": "Tarjeta Debito/Credito",
+                "order": 3
+            },
+            {
+                "active": true,
+                "_id": "5cd099aaa89003e864ccd001",
+                "paymentMethodCode": "BEB",
+                "paymentMethodDescription": "CuentaRUT/Ctas BancoEstado",
+                "order": 0
+            },
+            {
+                "active": true,
+                "_id": "584e99ccdf829275019c4d3c",
+                "paymentMethodCode": "TCO",
+                "paymentMethodDescription": "Transbank OneClick",
+                "order": 1
+            }
+        ],
+        "startTime": null,
+        "userData": {
+            "type": "CUSTOMER"
+        },
+        "communeData": {
+            "_id": "584e9469df829275019c4b0f",
+            "comunaId": "0000000114",
+            "name": "QUILICURA",
+            "regionId": "000007",
+            "regionName": "RM   REGIÓN METROPOLITANA",
+            "inventory": [],
+            "isBlocked": false,
+            "emailAddress": "supervisor@gasco.cl",
+            "smsPhoneNumber": "232323233",
+            "callPhoneNumber": "26944444",
+            "publicRequestDistance2": 2,
+            "publicRequestDistance1": 2,
+            "publicRequestDistance3": 2,
+            "buffer": 25,
+            "initialWave": 1,
+            "orderQueue": 3,
+            "nextWaveAfter": 45,
+            "endTime": 1170,
+            "startTime": 540,
+            "repeatInterval": 5,
+            "automaticReassignment": true,
+            "comunaArea": null,
+            "retryTimes": 0,
+            "repeatInterval2": 0,
+            "showStreet": false,
+            "showStreetNumber": false,
+            "showComuna": true,
+            "completeBookingDistance": 50,
+            "pendingWarningTime": 5,
+            "pendingExpiredTime": 10,
+            "reachedWarningTime": 5,
+            "reachedExpiredTime": 10,
+            "cancelledWarningTime": 5,
+            "cancelledExpiredTime": 10,
+            "areaColor": "#64bbff",
+            "maxReassignDistance": 3,
+            "maxReassignEta": 30,
+            "offlineOrderQueue": 3,
+            "dynamicQueueIsActive": false,
+            "paymentMethods": [
+                {
+                    "_id": "584e99ccdf829275019c4d3b"
+                },
+                {
+                    "_id": "58dc03ad8f486be9670cef93"
+                },
+                {
+                    "_id": "58dc03ad8f486be9670cef94"
+                },
+                {
+                    "_id": "5cd099aaa89003e864ccd001"
+                },
+                {
+                    "_id": "584e99ccdf829275019c4d3c"
+                }
+            ],
+            "maxPubicWaveEta": 45,
+            "onlyOff": true,
+            "onlyOn": true,
+            "defaultEta": 45,
+            "legacy": true,
+            "maxRetries": 3,
+            "pilot": true,
+            "dispatchTime": 90
+        }
+    }
+}
